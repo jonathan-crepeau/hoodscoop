@@ -44,7 +44,10 @@ $( document ).ready(function() {
       console.log(err);
     }
   })
+  
+})
 
+$(document).ready(function() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 37.78, lng: -122.44},
     zoom: 13.5,
@@ -308,5 +311,5 @@ $( document ).ready(function() {
    ]
  }
 ],
-  });
+  })
 })

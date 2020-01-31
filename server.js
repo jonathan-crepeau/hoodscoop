@@ -57,17 +57,6 @@ app.post('/api/submitForm', (req, res) => {
   })
 
 
-  // LOGIN API ROUTE
-
-  // app.post('/api/login', (request, response) => {
-  //   return response.status(200);
-  // });
-
-  // app.get('api/submitForm', (req, res) => {
-  //
-  // })
-
-
 // START SERVER ============================= //
 app.listen(PORT, () => {
     console.log(`This server runs on http://localhost:${PORT}`);
