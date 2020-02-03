@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
-// Express Session 
+// Express Session
 app.use(session({
   store: new MongoStore({
     url: 'mongodb://localhost:27017/user-info',
@@ -44,6 +44,12 @@ app.get('/profile', (req, res) => {
 app.get('/signup', (req, res) => {
   res.sendFile(
     __dirname + '/views/signup.html'
+  )
+})
+
+app.get('/settings', (req, res) => {
+  res.sendFile(
+    __dirname + '/views/settings.html'
   )
 })
 
@@ -87,13 +93,13 @@ app.post('/api/login', (req, res) => {
   db.User.findOne({email}, async (err, foundUser) => {
     let passwordsMatch;
     if (err) res.status(400).json({status: 540, error: 'Bad request(A)'});
-    
+
     if(!foundUser) {
       return res.status(400).json({status: 400, message: 'Username or password is incorrect.'});
     }
 
     try {
-      passwordsMatch = await bcrypt.compare(password, foundUser.password); 
+      passwordsMatch = await bcrypt.compare(password, foundUser.password);
       console.log(passwordsMatch);
     } catch (err) {
       res.status(400).json({status: 400, message: 'Bad request(B).'});
@@ -107,7 +113,7 @@ app.post('/api/login', (req, res) => {
 
 
 
-    if (passwordsMatch) { 
+    if (passwordsMatch) {
       res.status(200).json({status: 200, message: 'Success!'});
     } else {
       res.status(400).json({status: 400, error: 'Invalid credentials.'});
@@ -117,7 +123,7 @@ app.post('/api/login', (req, res) => {
 });
 
 
-// GET Verify Single User 
+// GET Verify Single User
 
 app.get('/api/verify', (req, res) => {
   if (!req.session.currentUser) {
@@ -129,10 +135,19 @@ app.get('/api/verify', (req, res) => {
 
 // DELETE Destroy Single User
 
-app.delete('/api/users/:id', (req, res) => {
-  db.User.findByIdAndDelete(req.params.id, (err, deleteUser) => {
+app.delete('/api/login', (req, res) => {
+  db.User.findOneAndDelete({email: req.body.email}, (err, deletedUser) => {
+
+    console.log(deletedUser)
     if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
-    res.status(200).json(deleteUser);
+    const responseObj = {
+      status: 200,
+      data: deletedUser,
+      requestedAt: new Date().toLocaleString()
+    };
+
+    res.status(200).json(responseObj);
+
   });
 });
 
