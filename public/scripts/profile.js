@@ -1,7 +1,7 @@
 
 const icon = {
   url: ('./images/pin-icon-png-11-transparent.png'),
-  scaledSize: new google.maps.Size(30,30),
+  scaledSize: new google.maps.Size(40,40),
   origin: new google.maps.Point(0,0), // origin
   anchor: new google.maps.Point(0, 0)
 };
@@ -13,38 +13,49 @@ const onSuccess = (response) => {
       const lat = JSON.parse(event._embedded.venues[0].location.latitude)
       const location = {lng: lng, lat:lat}
 
-      const eqPin = new google.maps.Marker({position: location, map: map, icon: icon}); //, icon: icon
-    }); // result is an object which is created from the returned JSON
-}
 
-const recommend = (response) => {
-  // console.log(response._embedded.events)
+      const eqPin = new google.maps.Marker({position: location, map: map, icon: icon, animation:google.maps.Animation.BOUNCE}); //, icon: icon
+
+      var infowindow = new google.maps.InfoWindow({
+        content: `<h2>lolol</h2>`
+      });
+
+      eqPin.addListener('click', function() {
+        infowindow.open(map, eqPin);
+      });
+    }); // result is an object which is created from the returned JSON
+
 }
+//
+// const recommend = (response) => {
+//   // console.log(response._embedded.events)
+// }
 
 $( document ).ready(function() {
   $.ajax({
     method: "GET",
     // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-    url: 'https://app.ticketmaster.com/discovery/v2/events.json?size=50&dmaId=382&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ',
+    url: 'https://app.ticketmaster.com/discovery/v2/events.json?size=50&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ&latlong=37.78,-122.44',
     // contentType: "application/json",
     // dataType: 'json',
+    async: true,
     success: onSuccess,
     error: function(err) {
       console.log(err);
     }
   })
-  $.ajax({
-    method: "GET",
-    // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-    url: 'https://app.ticketmaster.com/discovery/v2/suggest.json?apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ',
-    // contentType: "application/json",
-    // dataType: 'json',
-    success: recommend,
-    error: function(err) {
-      console.log(err);
-    }
-  })
-  
+  // $.ajax({
+  //   method: "GET",
+  //   // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
+  //   url: 'https://app.ticketmaster.com/discovery/v2/suggest.json?apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ',
+  //   // contentType: "application/json",
+  //   // dataType: 'json',
+  //   success: recommend,
+  //   error: function(err) {
+  //     console.log(err);
+  //   }
+  // })
+
 })
 
 $(document).ready(function() {
