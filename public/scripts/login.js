@@ -65,13 +65,8 @@ function handleLogin(event) {
             error: error => console.log(error),
         });
 
-        $.ajax({
-            method: 'POST',
-            url: '/api/login',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(userData),
-            success: response => console.log(response),
-            error: error => console.log(error),
-        });
+        function onSuccess(response) {
+            window.location = '/profile';
+        }
     };
 };
