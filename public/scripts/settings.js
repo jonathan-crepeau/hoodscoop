@@ -1,13 +1,3 @@
-console.log('login.js ready to go!');
-
-/* GAME PLAN
-1 - Select the Form
-2 - Listen for submit & prevent default
-3 - Get form values
-4 - Validate values
-5 - Submit request if valid
-6 - Redirect to Login on success
-*/
 
 // 1. Select the Form
 const form = document.getElementById('loginForm');
@@ -42,19 +32,34 @@ function handleLogin(event) {
             </div>
             `);
         }
-        else if (input.type === 'password' && input.value.length < 4) {
+        else if (input.type === 'password' && input.value.length < 7) {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
             <div class="alert pt-0">
-                <p>Password must be at least 4 characters</p>
+                <p>Password must be at least 7 characters</p>
             </div>
             `);
         }
+
+
     });
 
+    // 5. OnSuccess function to delete User
+    function onSuccess() {
+
+      $.ajax({
+          method: 'DELETE',
+          url: '/api/login',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(userData),
+          success: console.log(userData),
+          error: error => console.log(error),
+      });
+    }
+
     if (isFormValid) {
-        console.log(userData);
+        console.log('Submitting User Data -->', userData);
 
         $.ajax({
             method: 'POST',
@@ -62,15 +67,6 @@ function handleLogin(event) {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(userData),
             success: onSuccess,
-            error: error => console.log(error),
-        });
-
-        $.ajax({
-            method: 'POST',
-            url: '/api/login',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(userData),
-            success: response => console.log(response),
             error: error => console.log(error),
         });
     };
