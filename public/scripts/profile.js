@@ -35,7 +35,7 @@ $( document ).ready(function() {
   $.ajax({
     method: "GET",
     // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-    url: 'https://app.ticketmaster.com/discovery/v2/events.json?size=50&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ&latlong=37.78,-122.44',
+    url: 'https://app.ticketmaster.com/discovery/v2/events.json?geoPoint=9q8yvfmrn&sort=distance,asc&apikey=nIqXELlTRG3dtZ9cmpqSl3Poa8Epf5zS',
     // contentType: "application/json",
     // dataType: 'json',
     async: true,
@@ -323,4 +323,4 @@ $(document).ready(function() {
  }
 ],
   })
-})
+});
