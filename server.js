@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo')(session);
 const app = express();
 const db = require('./models');
 const PORT = process.env.PORT || 4000;
+const routes = require('./routes');
 
 // MIDDLEWARE ============================= //
 app.use(bodyParser.json());
@@ -28,6 +29,8 @@ app.use(session({
 }));
 
 // HTML ROUTES ============================= //
+
+app.use('/', routes.view);
 
 app.get('/', (request, response) => {
     response.sendFile(
