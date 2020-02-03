@@ -117,6 +117,7 @@ app.post('/api/login', (req, res) => {
 
     if (passwordsMatch) { 
       res.status(200).json({status: 200, message: 'Success!'});
+      console.log(req.session.user)
     } else {
       res.status(400).json({status: 400, error: 'Invalid credentials.'});
     }
