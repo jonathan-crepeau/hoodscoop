@@ -56,6 +56,15 @@ app.get('/settings', (req, res) => {
 
 // API ROUTES ============================= //
 
+// GET Index Users Route
+
+app.get('/api/users', (request, response) => {
+  db.User.find({}, (error, allUsers) => {
+    if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
+    response.status(200).json(allUsers);
+  });
+});
+
 app.post('/api/test', (req, res) => {
   res.json({status: 200, message: 'Test Success'})
 });
@@ -83,7 +92,6 @@ app.post('/api/submitForm', async (req, res) => {
        res.json({savedUser});
      });
   });
-
 
 // POST Login API Route
 
@@ -115,6 +123,7 @@ app.post('/api/login', (req, res) => {
 
     if (passwordsMatch) {
       res.status(200).json({status: 200, message: 'Success!'});
+      console.log(req.session.user)
     } else {
       res.status(400).json({status: 400, error: 'Invalid credentials.'});
     }
@@ -131,6 +140,19 @@ app.get('/api/verify', (req, res) => {
   }
   res.status(200).json(req.session.user);
 });
+
+
+// DELETE Logout Single User
+app.delete('/api/logout', (req, res) => {
+  if (!req.session.currentUser) {
+    return res.status(401).json({status: 401, message: 'Unauthorized plese login and try again.'});
+  }
+
+  req.session.destroy((err) => {
+    if (err) return res.status(400).json({err});
+    res.status(200).json({status: 200}).redirect('/')
+  })
+})
 
 
 // DELETE Destroy Single User

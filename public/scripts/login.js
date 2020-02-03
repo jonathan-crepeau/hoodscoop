@@ -42,21 +42,28 @@ function handleLogin(event) {
             </div>
             `);
         }
-        else if (input.type === 'password' && input.value.length < 7) {
+        else if (input.type === 'password' && input.value.length < 4) {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
             <div class="alert pt-0">
-                <p>Password must be at least 7 characters</p>
+                <p>Password must be at least 4 characters</p>
             </div>
             `);
         }
-
-
     });
 
     if (isFormValid) {
-        console.log('Submitting User Data -->', userData);
+        console.log(userData);
+
+        $.ajax({
+            method: 'POST',
+            url: '/api/login',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(userData),
+            success: onSuccess,
+            error: error => console.log(error),
+        });
 
         $.ajax({
             method: 'POST',
