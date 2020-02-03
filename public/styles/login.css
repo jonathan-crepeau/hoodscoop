@@ -6,3 +6,21 @@
 .alert p {
     font-size: .75em;
 }
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+}
+
+
+#loginForm {
+  position: fixed;
+  background: rgba(192,192,192,0.3);
+  color: white;
+  width: 50vw;
+  padding: 20px;
+}

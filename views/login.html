@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>HoodSkoop</title>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8988dee15f.js" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Main CSS -->
@@ -19,19 +21,49 @@
   </head>
   <body>
     <main>
-      <form id="loginForm" class="p-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent rounded mb-5">
+    <a class="navbar-brand" href="#"><h1><i class="fas fa-search-location"></i> HoodSkoop</h1> <p> What's the Skoop in Your Hood? </p></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample09">
+      <ul class="navbar-nav ml-auto bg-light">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Login<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">Signup</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown09">
+            <a class="dropdown-item" href="#" aria-disabled="true">Settings</a>
+            <a class="dropdown-item" href="#" aria-disabled="true">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+    </nav>
+    <video autoplay muted loop id="myVideo">
+      <source src="./images/Pexels Videos 1994819.mp4" type="video/mp4">
+    </video>
+      <form id="loginForm" class="p-5 col-lg-6 offset-lg-3 mt-5">
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <small id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</small>
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
-            <small id="passwordHelp" class="form-text text-muted">Password must be at least 7 characters long.</small>
+            <small id="passwordHelp" class="form-text text-light">Password must be at least 7 characters long.</small>
           </div>
-          <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+          <button type="submit" class="btn btn-primary btn-lg btn-block mt-5" id="submitBtn">Submit</button>
         </form>
   </main>
   </body>

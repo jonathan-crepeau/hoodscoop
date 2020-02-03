@@ -61,6 +61,9 @@ function handleLogin(event) {
             url: '/api/login',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(userData),
+            success: response => console.log(response),
+            error: error => console.log(error),
+        });
             success: onSuccess,
             error: error => console.log(error),
         });
