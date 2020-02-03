@@ -1,13 +1,3 @@
-console.log('login.js ready to go!');
-
-/* GAME PLAN
-1 - Select the Form
-2 - Listen for submit & prevent default
-3 - Get form values
-4 - Validate values
-5 - Submit request if valid
-6 - Redirect to Login on success
-*/
 
 // 1. Select the Form
 const form = document.getElementById('loginForm');
@@ -55,6 +45,19 @@ function handleLogin(event) {
 
     });
 
+    // 5. OnSuccess function to delete User
+    function onSuccess() {
+
+      $.ajax({
+          method: 'DELETE',
+          url: '/api/login',
+          contentType: 'application/json; charset=utf-8',
+          data: JSON.stringify(userData),
+          success: console.log(userData),
+          error: error => console.log(error),
+      });
+    }
+
     if (isFormValid) {
         console.log('Submitting User Data -->', userData);
 
@@ -63,7 +66,7 @@ function handleLogin(event) {
             url: '/api/login',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(userData),
-            success: response => console.log(response),
+            success: onSuccess,
             error: error => console.log(error),
         });
     };

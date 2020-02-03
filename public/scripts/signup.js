@@ -1,7 +1,3 @@
-
-
-
-
 $("#submitBtn").click(handleSignupSubmit);
 
 function handleSignupSubmit() {
