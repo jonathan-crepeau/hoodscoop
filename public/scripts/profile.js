@@ -1,4 +1,3 @@
-
 const icon = {
   url: ('./images/pin-icon-png-11-transparent.png'),
   scaledSize: new google.maps.Size(40,40),
@@ -24,41 +23,13 @@ const onSuccess = (response) => {
         infowindow.open(map, eqPin);
       });
     }); // result is an object which is created from the returned JSON
-
-}
-//
-// const recommend = (response) => {
-//   // console.log(response._embedded.events)
-// }
+};
 
 $( document ).ready(function() {
-  $.ajax({
-    method: "GET",
-    // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-    url: 'https://app.ticketmaster.com/discovery/v2/events.json?geoPoint=9q8yvfmrn&sort=distance,asc&apikey=nIqXELlTRG3dtZ9cmpqSl3Poa8Epf5zS',
-    // contentType: "application/json",
-    // dataType: 'json',
-    async: true,
-    success: onSuccess,
-    error: function(err) {
-      console.log(err);
-    }
-  })
-  // $.ajax({
-  //   method: "GET",
-  //   // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-  //   url: 'https://app.ticketmaster.com/discovery/v2/suggest.json?apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ',
-  //   // contentType: "application/json",
-  //   // dataType: 'json',
-  //   success: recommend,
-  //   error: function(err) {
-  //     console.log(err);
-  //   }
-  // })
+  initMap();  
+});
 
-})
-
-$(document).ready(function() {
+function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 37.78, lng: -122.44},
     zoom: 13.5,
@@ -321,6 +292,51 @@ $(document).ready(function() {
      }
    ]
  }
-],
-  })
-});
+    ],
+  });
+  infoWindow = new google.maps.InfoWindow;
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      let pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      const userLocation = Geohash.encode(pos.lat, pos.lng, 9);
+      console.log(userLocation);
+
+      $.ajax({
+        method: "GET",
+        // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
+        url: `https://app.ticketmaster.com/discovery/v2/events.json?geoPoint=${userLocation}&sort=distance,asc&apikey=nIqXELlTRG3dtZ9cmpqSl3Poa8Epf5zS`,
+        // contentType: "application/json",
+        // dataType: 'json',
+        async: true,
+        success: onSuccess,
+        error: function(err) {
+          console.log(err);
+        }
+      });
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('Location found.');
+      infoWindow.open(map);
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+};
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+  infoWindow.open(map);
+}
