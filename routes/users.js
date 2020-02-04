@@ -12,7 +12,7 @@ router.post('/submitForm', ctrl.auth.signup);
 // TODO - Read (view) a single user
 
 // PUT Update Single User
-router.put('/users/:id', ctrl.auth.update); 
+// router.put('/users/:id', ctrl.auth.update); 
 
 // DELETE Destroy Single User
 router.delete('/api/login', ctrl.auth.destroy);
@@ -21,7 +21,7 @@ router.delete('/api/login', ctrl.auth.destroy);
 
 // ALL OTHER ROUTES ================================= //
 
-// GET Index Users Route 
+// GET Index Users Route
 router.get('/users', ctrl.auth.index);
 
 // POST Login API Route
