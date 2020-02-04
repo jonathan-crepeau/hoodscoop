@@ -64,9 +64,9 @@ function handleLogin(event) {
                 success: onSuccess,
                 error: error => console.log(error),
             });
-        };
     };
+};
 
-    function onSuccess(response) {
-        window.location = '/profile';
-    };
+function onSuccess(response) {
+    window.location = '/profile';
+};
