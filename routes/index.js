@@ -1,4 +1,5 @@
 module.exports = {
-    api: require('./api'),
-    view: require('./view')
+    user: require('./users'),
+    view: require('./view'),
+    favorites: require('./favorites')
 };

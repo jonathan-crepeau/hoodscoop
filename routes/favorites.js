@@ -4,5 +4,4 @@ const ctrl = require('../controllers');
 
 
 
-
-module.exports = router;
+module.export = router;
