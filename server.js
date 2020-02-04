@@ -154,6 +154,19 @@ app.delete('/api/logout', (req, res) => {
   })
 })
 
+// Update User
+app.put('/api/user/:id', (req, res) => {
+    db.User.findById({id: req.body.id})
+    .populate('favorites')    
+    .exec((err, user) => {
+      if (err){
+        res.status(400).json({status: 400, error: 'Error adding Favorite'})
+      }
+    });
+  })
+
+//
+
 
 // DELETE Destroy Single User
 
