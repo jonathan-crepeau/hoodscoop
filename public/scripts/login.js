@@ -59,6 +59,9 @@ function handleLogin(event) {
             $.ajax({
                 method: 'POST',
                 url: '/api/login',
+                headers: {
+                    withCredentials: true,
+                },
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(userData),
                 success: onSuccess,
