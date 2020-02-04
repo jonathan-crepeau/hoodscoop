@@ -9,13 +9,14 @@ const ctrl = require('../controllers');
 // POST Signup (Create) Single User
 router.post('/submitForm', ctrl.auth.signup);
 
-// TODO - Read (view) a single user
+// Show (VIEW) Single User
+router.get('/users/:id', ctrl.auth.show);
 
 // PUT Update Single User
-router.put('/users/:id', ctrl.auth.update); 
+// router.put('/users/:id', ctrl.auth.update); 
 
 // DELETE Destroy Single User
-router.delete('/api/login', ctrl.auth.destroy);
+router.delete('/login', ctrl.auth.destroy);
 
 
 

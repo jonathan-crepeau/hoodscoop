@@ -32,17 +32,25 @@ const signup = async (req, res) => {
          res.json({savedUser});
     });
 };
+
+// Show (READ) Single User
+const show = (req, res) => {
+  db.User.findById(req.params.id, (error, foundUser) => {
+    if (error) res.status(400).json({status: 400, message: 'Something went wrong, please try again.'});
+    res.status(200).json(foundUser);
+  });
+};
   
 // UPDATE SINGLE USER
-const update = (req, res) => {
-    db.User.findById({id: req.body.id})
-    .populate(‘favorites’);
-    .exec((err, user) => {
-      if (err){
-        res.status(400).json({status: 400, error: ‘Error adding Favorite’})
-      }
-    });
-};
+// const update = (req, res) => {
+//     db.User.findById({id: req.body.id})
+//     .populate(‘favorites’);
+//     .exec((err, user) => {
+//       if (err){
+//         res.status(400).json({status: 400, error: ‘Error adding Favorite’})
+//       }
+//     });
+// };
 
 
 // LOGIN SINGLE USER ================ //
@@ -123,7 +131,7 @@ const destroy = (req, res) => {
 module.exports = {
     index,
     signup,
-    update,
+    show,
     login,
     verify,
     logout,
