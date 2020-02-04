@@ -112,15 +112,16 @@ const logout = (req, res) => {
 
 // DELETE SINGLE USER ================ //
 const destroy = (req, res) => {
-    db.User.findOneAndDelete({email: req.body.email}, (err, deletedUser) => {
+  const { email, password } = req.body;
+  db.User.findOneAndDelete({email}, (err, deletedUser) => {
   
-      console.log(deletedUser)
-      if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
-      const responseObj = {
-        status: 200,
-        data: deletedUser,
-        requestedAt: new Date().toLocaleString()
-      };
+    console.log(deletedUser)
+    if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
+    const responseObj = {
+      status: 200,
+      data: deletedUser,
+      requestedAt: new Date().toLocaleString()
+    };
   
       res.status(200).json(responseObj);
   

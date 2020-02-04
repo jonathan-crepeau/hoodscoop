@@ -16,7 +16,7 @@ router.get('/users/:id', ctrl.auth.show);
 // router.put('/users/:id', ctrl.auth.update); 
 
 // DELETE Destroy Single User
-router.delete('/login', ctrl.auth.destroy);
+router.delete('/delete', ctrl.auth.destroy);
 
 
 
