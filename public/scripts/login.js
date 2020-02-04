@@ -53,23 +53,20 @@ function handleLogin(event) {
         }
     });
 
+
     if (isFormValid) {
-        console.log(userData);
-
-        $.ajax({
-            method: 'POST',
-            url: '/api/login',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(userData),
-            success: response => console.log(response),
-            error: error => console.log(error),
-        });
-            success: onSuccess,
-            error: error => console.log(error),
-        });
-
-        function onSuccess(response) {
-            window.location = '/profile';
-        }
+            console.log(userData);
+            $.ajax({
+                method: 'POST',
+                url: '/api/login',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(userData),
+                success: onSuccess,
+                error: error => console.log(error),
+            });
+        };
     };
-};
+
+    function onSuccess(response) {
+        window.location = '/profile';
+    };
