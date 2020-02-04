@@ -5,6 +5,14 @@ const form = document.getElementById('loginForm');
 // 2. Listen for submit
 form.addEventListener('submit', handleLogin);
 
+$(document).ready(function() {
+    if (localStorage.getItem('loggedIn')) {
+
+    } else {
+        window.location = '/';
+    }
+});
+
 function handleLogin(event) {
     // 2. Prevent page refresh
     event.preventDefault();
