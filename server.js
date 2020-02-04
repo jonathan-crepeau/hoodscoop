@@ -28,6 +28,15 @@ app.use(session({
   },
 }));
 
+// Authentication On Each Page
+// app.use(function (req, res, next) {
+//   if (!req.headers.authorization) {
+//     res.status(403).json({status: 403, message: 'Unauthorized. Please login and try again.'});
+//     return window.location = '/';
+//   }
+//   next();
+// });
+
 // HTML ROUTES ============================= //
 app.use('/', routes.view);
 

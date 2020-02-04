@@ -10,6 +10,15 @@ router.get('/', (req, res) => {
     });
 });
 
+// Middleware for Authentication
+// router.use((req, res, next) => {
+//     console.log('trigger')
+//     if (!req.session.currentUser) { 
+//       res.redirect('/')
+//     };
+//     next();
+// });
+
 // Profile (Map Page) Route
 
 router.get('/profile', (req, res) => {

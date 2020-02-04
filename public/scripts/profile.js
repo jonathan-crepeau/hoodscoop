@@ -55,6 +55,7 @@ faveButton.on("click", addToFavorites)
 
 
 $( document ).ready(function() {
+  
   initMap();
 });
 
