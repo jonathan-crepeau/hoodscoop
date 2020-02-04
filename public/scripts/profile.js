@@ -25,8 +25,37 @@ const onSuccess = (response) => {
     }); // result is an object which is created from the returned JSON
 };
 
+const faveButton = $('.btn');
+
+const addToFavorites = () => {
+
+  // discuss with johnathan
+  // get these values from the header of the card or directly from pin
+  const name = document.getElementById('');
+  const id = document.getElementById('');
+
+  const favoriteData = {
+      eventName: name.value,
+      eventId: id.value,
+  };
+
+  $.ajax({
+    method: "POST",
+    url: '/api/favorites/:id',
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify(favoriteData),
+    success : function(result) {
+      console.log(result); // result is an object which is created from the returned JSON
+    }
+  })
+
+}
+
+faveButton.on("click", addToFavorites)
+
+
 $( document ).ready(function() {
-  initMap();  
+  initMap();
 });
 
 function initMap() {

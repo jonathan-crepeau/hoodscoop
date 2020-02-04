@@ -13,7 +13,11 @@ router.post('/submitForm', ctrl.auth.signup);
 router.get('/users/:id', ctrl.auth.show);
 
 // PUT Update Single User
+<<<<<<< HEAD
 router.put('/update', ctrl.auth.update); 
+=======
+// router.put('/users/:id', ctrl.auth.update); 
+>>>>>>> submaster
 
 // DELETE Destroy Single User
 router.delete('/delete', ctrl.auth.destroy);
@@ -22,7 +26,7 @@ router.delete('/delete', ctrl.auth.destroy);
 
 // ALL OTHER ROUTES ================================= //
 
-// GET Index Users Route 
+// GET Index Users Route
 router.get('/users', ctrl.auth.index);
 
 // POST Login API Route
