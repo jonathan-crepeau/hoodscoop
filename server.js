@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo')(session);
 const app = express();
 const db = require('./models');
 const PORT = process.env.PORT || 4000;
+const routes = require('./routes');
 
 // MIDDLEWARE ============================= //
 app.use(bodyParser.json());
@@ -28,33 +29,11 @@ app.use(session({
 }));
 
 // HTML ROUTES ============================= //
-
-app.get('/', (request, response) => {
-    response.sendFile(
-      __dirname + '/views/login.html'
-    )
-})
-
-app.get('/profile', (req, res) => {
-  res.sendFile(
-    __dirname + '/views/profile.html'
-  )
-})
-
-app.get('/signup', (req, res) => {
-  res.sendFile(
-    __dirname + '/views/signup.html'
-  )
-})
-
-app.get('/settings', (req, res) => {
-  res.sendFile(
-    __dirname + '/views/settings.html'
-  )
-})
+app.use('/', routes.view);
 
 
 // API ROUTES ============================= //
+
 
 // GET Index Users Route
 
@@ -155,17 +134,7 @@ app.delete('/api/logout', (req, res) => {
 })
 
 // Update User
-app.put('/api/user/:id', (req, res) => {
-    db.User.findById({id: req.body.id})
-    .populate('favorites')    
-    .exec((err, user) => {
-      if (err){
-        res.status(400).json({status: 400, error: 'Error adding Favorite'})
-      }
-    });
-  })
 
-//
 
 
 // DELETE Destroy Single User
@@ -185,6 +154,9 @@ app.delete('/api/login', (req, res) => {
 
   });
 });
+
+app.use('/api', routes.user);
+
 
 // START SERVER ============================= //
 app.listen(PORT, () => {

@@ -8,3 +8,21 @@ app.get('/api/favorites/:id', (req, res) => {
 });
 
 // POST  (Create) Add Favorite REFERENCING User
+
+app.post('/api/favorites/:id', (req, res) => {
+  db.Favorite.create({req.body}, (err, newFavorite) => {
+    if (err) {
+        return console.log(err)
+     }
+  })
+})
+
+// Delete Favorite
+
+app.delete('/api/favorites/:id', (req, res) => {
+  db.Favorite.remove({req.body}, (err, deletedFavorite) => {
+    if (err) {
+      console.log("unable to remove favorite")
+    }
+  })
+})
