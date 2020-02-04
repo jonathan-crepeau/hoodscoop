@@ -33,6 +33,18 @@ const signup = async (req, res) => {
     });
 };
   
+// UPDATE SINGLE USER
+const update = (req, res) => {
+    db.User.findById({id: req.body.id})
+    .populate(‘favorites’);
+    .exec((err, user) => {
+      if (err){
+        res.status(400).json({status: 400, error: ‘Error adding Favorite’})
+      }
+    });
+};
+
+
 // LOGIN SINGLE USER ================ //
 const login = (req, res) => {
     const { firstName, lastName, email, password} = req.body;
@@ -111,6 +123,7 @@ const destroy = (req, res) => {
 module.exports = {
     index,
     signup,
+    update,
     login,
     verify,
     logout,
