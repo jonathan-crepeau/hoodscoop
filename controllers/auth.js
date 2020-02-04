@@ -42,15 +42,15 @@ const show = (req, res) => {
 };
   
 // UPDATE SINGLE USER
-// const update = (req, res) => {
-//     db.User.findById({id: req.body.id})
-//     .populate(‘favorites’);
-//     .exec((err, user) => {
-//       if (err){
-//         res.status(400).json({status: 400, error: ‘Error adding Favorite’})
-//       }
-//     });
-// };
+const update = (req, res) => {
+  db.User.findById({id: req.body.id})
+  .populate(‘favorites’);
+  .exec((err, user) => {
+    if (err){
+      res.status(400).json({status: 400, error: ‘Error adding Favorite’})
+    }
+  });
+};
 
 
 // LOGIN SINGLE USER ================ //
@@ -137,4 +137,5 @@ module.exports = {
     verify,
     logout,
     destroy,
+    update,
 };

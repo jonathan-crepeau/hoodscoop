@@ -13,7 +13,7 @@ router.post('/submitForm', ctrl.auth.signup);
 router.get('/users/:id', ctrl.auth.show);
 
 // PUT Update Single User
-// router.put('/users/:id', ctrl.auth.update); 
+router.put('/update', ctrl.auth.update); 
 
 // DELETE Destroy Single User
 router.delete('/delete', ctrl.auth.destroy);
