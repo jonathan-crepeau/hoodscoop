@@ -2,3 +2,7 @@ body {
   background: rgb(0,89,152);
   background: linear-gradient(90deg, rgba(0,89,152,1) 37%, rgba(29,242,253,1) 100%, rgba(255,255,255,1) 100%);
 }
+
+#sup {
+  color: white;
+}
