@@ -55,9 +55,13 @@ faveButton.on("click", addToFavorites)
 
 
 $( document ).ready(function() {
-  initMap();
+  if(localStorage.getItem('loggedIn')){
+    initMap();
 
     $('#toasty').toast('show');
+  } else {
+    window.location = '/';
+  }
 });
 
 function initMap() {

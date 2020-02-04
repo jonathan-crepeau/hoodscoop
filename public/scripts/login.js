@@ -68,5 +68,6 @@ function handleLogin(event) {
 };
 
 function onSuccess(response) {
+    localStorage.setItem('loggedIn', true);
     window.location = '/profile';
 };

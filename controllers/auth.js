@@ -67,7 +67,7 @@ const login = (req, res) => {
 
       try {
         passwordsMatch = await bcrypt.compare(password, foundUser.password);
-        console.log(passwordsMatch);
+        // console.log(passwordsMatch);
       } catch (err) {
         res.status(400).json({status: 400, message: 'Bad request(B).'});
       }
@@ -76,13 +76,13 @@ const login = (req, res) => {
       req.session.createdAt = new Date().toDateString();
       req.session.user = foundUser;
 
-      console.log(req.session);
+      // console.log(req.session);
 
 
 
       if (passwordsMatch) {
         res.status(200).json({status: 200, message: 'Success!'});
-        console.log(req.session.user)
+        // console.log(req.session.user)
       } else {
         res.status(400).json({status: 400, error: 'Invalid credentials.'});
       }
@@ -105,9 +105,9 @@ const logout = (req, res) => {
     }
 
     req.session.destroy((err) => {
-      if (err) return res.status(400).json({err});
-      res.status(200).json({status: 200}).redirect('/')
-    })
+      if (err) return res.status(400).json({status: 400, error: 'Bad request!'});
+      res.status(200).json({status: 200}).redirect('/');
+    });
 };
 
 // DELETE SINGLE USER ================ //

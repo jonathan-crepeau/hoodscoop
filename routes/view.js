@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
     });
 });
 
+
 // Profile (Map Page) Route
 
 router.get('/profile', (req, res) => {
