@@ -33,16 +33,24 @@ const signup = async (req, res) => {
     });
 };
 
-//UPDATE SINGLE USER
-// const update = (req, res) => {
-//     db.User.findById({id: req.body.id})
-//     .populate("favorites")
-//     .exec((err, user) => {
-//       if (err){
-//         res.status(400).json({status: 400, error: ‘Error adding Favorite’})
-//       }
-//     });
-// };
+// Show (READ) Single User
+const show = (req, res) => {
+  db.User.findById(req.params.id, (error, foundUser) => {
+    if (error) res.status(400).json({status: 400, message: 'Something went wrong, please try again.'});
+    res.status(200).json(foundUser);
+  });
+};
+  
+// UPDATE SINGLE USER
+const update = (req, res) => {
+  db.User.findById({id: req.body.id})
+  .populate(‘favorites’);
+  .exec((err, user) => {
+    if (err){
+      res.status(400).json({status: 400, error: 'Error adding Favorite'})
+    }
+  });
+};
 
 
 // LOGIN SINGLE USER ================ //
@@ -104,16 +112,17 @@ const logout = (req, res) => {
 
 // DELETE SINGLE USER ================ //
 const destroy = (req, res) => {
-    db.User.findOneAndDelete({email: req.body.email}, (err, deletedUser) => {
-
-      console.log(deletedUser)
-      if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
-      const responseObj = {
-        status: 200,
-        data: deletedUser,
-        requestedAt: new Date().toLocaleString()
-      };
-
+  const { email, password } = req.body;
+  db.User.findOneAndDelete({email}, (err, deletedUser) => {
+  
+    console.log(deletedUser)
+    if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
+    const responseObj = {
+      status: 200,
+      data: deletedUser,
+      requestedAt: new Date().toLocaleString()
+    };
+  
       res.status(200).json(responseObj);
 
     });
@@ -123,9 +132,10 @@ const destroy = (req, res) => {
 module.exports = {
     index,
     signup,
+    show,
     login,
     verify,
-    // update,
     logout,
     destroy,
+    update,
 };
