@@ -3,6 +3,7 @@ $('#userLogout').on('click', () => {
     console.log('clicked');
 
     function onSuccess() {
+        localStorage.clear();
         window.location = '/'
     }
 

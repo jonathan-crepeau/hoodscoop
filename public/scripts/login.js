@@ -62,11 +62,24 @@ function handleLogin(event) {
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(userData),
                 success: onSuccess,
-                error: error => console.log(error),
+                error: onError,
             });
     };
 };
 
+
+
 function onSuccess(response) {
+    localStorage.setItem('loggedIn', true);
     window.location = '/profile';
 };
+
+function onError(response) {
+$('#loginForm').prepend(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  Email or Password doesn't check out bruh! <strong> Enter Valid Creds </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>`)
+
+}
