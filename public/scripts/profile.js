@@ -5,13 +5,19 @@ const icon = {
   anchor: new google.maps.Point(0, 0)
 };
 
-const onSuccess = (response) => {
-    response._embedded.events.forEach((event) => {
-      console.log(event._embedded.venues[0].city)
-      const lng = JSON.parse(event._embedded.venues[0].location.longitude)
-      const lat = JSON.parse(event._embedded.venues[0].location.latitude)
-      const location = {lng: lng, lat:lat}
+const onSuccess = async (response) => {
 
+  try {
+    response._embedded.events.forEach((event) => {
+      // console.log(event._embedded.venues[0].city);
+      const name = event.name;
+      const distance = event.distance;
+      const image = event.images[0].url;
+      const segment = event.classifications[0].segment.name;
+      const genre = event.classifications[0].genre.name;
+      const lng = JSON.parse(event._embedded.venues[0].location.longitude);
+      const lat = JSON.parse(event._embedded.venues[0].location.latitude);
+      const location = {lng: lng, lat:lat};
 
       const eqPin = new google.maps.Marker({position: location, map: map, icon: icon, animation:google.maps.Animation.BOUNCE}); //, icon: icon
 
@@ -22,10 +28,26 @@ const onSuccess = (response) => {
       eqPin.addListener('click', function() {
         infowindow.open(map, eqPin);
       });
+
+      $('.card-columns').append(`
+        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
+          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
+          <img src="${image}" class="card-img-top" id="imgID"alt="...">
+            <div class="card-body">
+              <p class="smallText font-weight-bold">${name}</p>
+              <p class=smallText>${segment}/${genre}</p>
+              <p class="smallText card-text">Distance:<br>${distance}miles</p>
+            </div>
+          </div>
+      `)
     }); // result is an object which is created from the returned JSON
+  } catch (err) {
+    console.log(err);
+  }
+
 };
 
-const faveButton = $('.btn');
+const faveButton = $('.redBtn');
 
 const addToFavorites = () => {
 
@@ -58,7 +80,7 @@ $( document ).ready(function() {
   if(localStorage.getItem('loggedIn')){
     initMap();
 
-    $('#toasty').toast('show');
+    // $('#toasty').toast('show');
   } else {
     window.location = '/';
   }
@@ -375,3 +397,42 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                         'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
+
+// FILTERS --> EVENT LISTENERS
+
+$('#filter1').on('click', (event) => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      const userLocation = Geohash.encode(pos.lat, pos.lng, 9);
+
+      $.ajax({
+        method: "GET",
+        // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
+        url: `https://app.ticketmaster.com/discovery/v2/events.json?geoPoint=${userLocation}&sort=distance,asc&apikey=nIqXELlTRG3dtZ9cmpqSl3Poa8Epf5zS`,
+        // contentType: "application/json",
+       // dataType: 'json',
+        async: true,
+        success: filter1Success,
+        error: function(err) {
+          console.log(err);
+        }
+      });
+    });
+  };
+});
+
+function filter1Success(res) {
+
+  res._embedded.events.forEach((event) => {
+    const distance = event.distance;
+    // console.log(event.name)
+
+    if (`${distance}` > 5)
+    console.log(event.name && event.distance)
+  });
+
+};
