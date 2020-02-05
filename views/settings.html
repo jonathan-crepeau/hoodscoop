@@ -38,7 +38,7 @@
           <a class="nav-link" href="/signup">Signup</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
+          <a class="nav-link" href="/profile" tabindex="-1" aria-disabled="true">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="/settings" tabindex="-1" aria-disabled="true">Settings</a>
@@ -51,8 +51,38 @@
     </div>
     </nav>
       <!-- Button trigger modal -->
+      <div class="col text-center p-0 m-0">
+        <h5 class="text-center">Update Your Account!</h5>
+        <p>If you want to change any of your account information, enter it in the form below and click submit!</p>
+      </div>
+    <form class="signupForm p-5 pt-0 offset-lg-3>
+      <div class="form-group p-0 m-0">
+        <label for="first-name" class="text-dar">First Name</label>
+        <input type="text" class="form-control" id="first-name" name="first-name" aria-describedby="emailHelp"
+          placeholder="Enter First Name">
+      </div>
+    
+      <div class="form-group p-0 m-0">
+        <label for="last-name" class="text-dar">Last Name</label>
+        <input type="text" class="form-control" id="last-name" name="last-name" aria-describedby="emailHelp"
+          placeholder="Enter Last Name">
+      </div>
+    
+      <div class="form-group p-0 m-0">
+        <label for="email" class="text-dard">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+          placeholder="Enter Email Address">
+      </div>
+    
+      <div class="form-group p-0 m-0">
+        <label for="password" class="text-dark">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password">
+        <small id="passwordHelp" class="form-text text-muted">Password must be at least 7 characters long.</small>
+      </div>
+    </form>
+      
       <div class="col text-center">
-        <h5 class="text-center">Had Enough? Click the button below and you'll be prompted to re-enter your login information to delete your account!</h5>
+        <h5 class="text-center">Had Enough? Click the button below and<br> you'll be prompted to re-enter your login information to delete your account!</h5>
       </div>
       
       <div class="container">
