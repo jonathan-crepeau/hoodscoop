@@ -1,3 +1,9 @@
 # HOODSCOOP
-## What's the scoop in your hood?
 
+## OVERVIEW
+
+## TECHNOLOGIES USED
+
+## EXISTING FEATURES
+
+## PLANNED FEATURES
