@@ -6,3 +6,7 @@ body {
 #sup {
   color: white;
 }
+
+.smallText {
+  font-size: 7px;
+}
