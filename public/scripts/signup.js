@@ -1,5 +1,7 @@
 $("#submitBtn").click(handleSignupSubmit);
 
+const form = document.getElementsByClassName('signupForm');
+
 function handleSignupSubmit() {
   event.preventDefault();
 
@@ -14,6 +16,33 @@ function handleSignupSubmit() {
     email: email.value,
     password: password.value
   }
+
+  // const formInputs = [...form.elements];
+  //
+  //
+  //
+  // formInputs.forEach((input) => {
+  //     if (input.type !== 'submit' && input.value === '') {
+  //         isFormValid = false;
+  //         input.classList.add('inputError');
+  //         input.insertAdjacentHTML('afterend', `
+  //         <div class="alert pt-0">
+  //             <p>Please ${input.placeholder}</p>
+  //         </div>
+  //         `);
+  //     }
+  //     else if (input.type === 'password' && input.value.length < 4) {
+  //         isFormValid = false;
+  //         input.classList.add('inputError');
+  //         input.insertAdjacentHTML('afterend', `
+  //         <div class="alert pt-0">
+  //             <p>Password must be at least 4 characters</p>
+  //         </div>
+  //         `);
+  //     }
+  // });
+
+  alert("Hello\nHow are you?");
 
   console.log(userData);
 
