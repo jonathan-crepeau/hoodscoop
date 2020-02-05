@@ -1,28 +1,47 @@
+
+const db = require('../models');
+
 // GET Index Favorites Route
 
-app.get('/api/favorites/:id', (req, res) => {
-  db.Favorite.find({req.body.id}, (error, userFavorites) => {
+const index = (req, res) => {
+
+  const {eventName, eventId, Longitude, Latitude} = req.body;
+
+  db.Favorite.find({eventId}, (error, userFavorites) => {
     if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
     response.status(200).json(allUsers);
   });
-});
+};
 
 // POST  (Create) Add Favorite REFERENCING User
 
-app.post('/api/favorites/:id', (req, res) => {
-  db.Favorite.create({req.body}, (err, newFavorite) => {
+const addFav = (req, res) => {
+
+  const {eventName, eventId, Longitude, Latitude} = req.body;
+
+  db.Favorite.create(req.body, (err, newFavorite) => {
     if (err) {
         return console.log(err)
      }
   })
-})
+}
 
 // Delete Favorite
 
-app.delete('/api/favorites/:id', (req, res) => {
-  db.Favorite.remove({req.body}, (err, deletedFavorite) => {
+const destroy = (req, res) => {
+
+  const {eventName, eventId, Longitude, Latitude} = req.body;
+
+  db.Favorite.remove(req.body, (err, deletedFavorite) => {
     if (err) {
       console.log("unable to remove favorite")
     }
   })
-})
+}
+
+
+module.exports = {
+    index,
+    addFav,
+    destroy,
+};
