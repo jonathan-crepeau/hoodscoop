@@ -19,6 +19,8 @@ function handleLogin(event) {
     // 2. Prevent page refresh
     event.preventDefault();
     isFormValid = true;
+    $('#emailHelp').remove();
+    $('#passwordHelp').remove();
 
     // 3. Select form elements
     const userEmail = document.getElementById('email');
@@ -33,11 +35,12 @@ function handleLogin(event) {
     // 4. Validate Values
     const formInputs = [...form.elements];
     formInputs.forEach((input) => {
+        input.classList.remove('inputError');
         if (input.type !== 'submit' && input.value === '') {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
-            <div class="alert pt-0">
+            <div class="alert p-0">
                 <p>Please ${input.placeholder}</p>
             </div>
             `);
@@ -46,7 +49,7 @@ function handleLogin(event) {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
-            <div class="alert pt-0">
+            <div class="alert p-0">
                 <p>Password must be at least 4 characters</p>
             </div>
             `);

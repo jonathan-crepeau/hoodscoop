@@ -1,53 +1,31 @@
 const icon = {
   url: ('./images/pin-icon-png-11-transparent.png'),
-  scaledSize: new google.maps.Size(40,40),
-  origin: new google.maps.Point(0,0), // origin
+  scaledSize: new google.maps.Size(40, 40),
+  origin: new google.maps.Point(0, 0), // origin
   anchor: new google.maps.Point(0, 0)
 };
 
-const onSuccess = async (response) => {
+const onSuccess = (response) => {
+  response._embedded.events.forEach((event) => {
+    console.log(event._embedded.venues[0].city)
+    const lng = JSON.parse(event._embedded.venues[0].location.longitude)
+    const lat = JSON.parse(event._embedded.venues[0].location.latitude)
+    const location = { lng: lng, lat: lat }
 
-  try {
-    response._embedded.events.forEach((event) => {
-      // console.log(event._embedded.venues[0].city);
-      const name = event.name;
-      const distance = event.distance;
-      const image = event.images[0].url;
-      const segment = event.classifications[0].segment.name;
-      const genre = event.classifications[0].genre.name;
-      const lng = JSON.parse(event._embedded.venues[0].location.longitude);
-      const lat = JSON.parse(event._embedded.venues[0].location.latitude);
-      const location = {lng: lng, lat:lat};
 
-      const eqPin = new google.maps.Marker({position: location, map: map, icon: icon, animation:google.maps.Animation.BOUNCE}); //, icon: icon
+    const eqPin = new google.maps.Marker({ position: location, map: map, icon: icon, animation: google.maps.Animation.BOUNCE }); //, icon: icon
 
-      var infowindow = new google.maps.InfoWindow({
-        content: `<h2>lolol</h2>`
-      });
+    var infowindow = new google.maps.InfoWindow({
+      content: `<h2>lolol</h2>`
+    });
 
-      eqPin.addListener('click', function() {
-        infowindow.open(map, eqPin);
-      });
-
-      $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
-            <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
-            </div>
-          </div>
-      `)
-    }); // result is an object which is created from the returned JSON
-  } catch (err) {
-    console.log(err);
-  }
-
+    eqPin.addListener('click', function () {
+      infowindow.open(map, eqPin);
+    });
+  }); // result is an object which is created from the returned JSON
 };
 
-const faveButton = $('.redBtn');
+const faveButton = $('.btn');
 
 const addToFavorites = () => {
 
@@ -57,8 +35,8 @@ const addToFavorites = () => {
   const id = document.getElementById('');
 
   const favoriteData = {
-      eventName: name.value,
-      eventId: id.value,
+    eventName: name.value,
+    eventId: id.value,
   };
 
   $.ajax({
@@ -66,7 +44,7 @@ const addToFavorites = () => {
     url: '/api/favorites/:id',
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(favoriteData),
-    success : function(result) {
+    success: function (result) {
       console.log(result); // result is an object which is created from the returned JSON
     }
   })
@@ -76,11 +54,11 @@ const addToFavorites = () => {
 faveButton.on("click", addToFavorites)
 
 
-$( document ).ready(function() {
-  if(localStorage.getItem('loggedIn')){
+$(document).ready(function () {
+  if (localStorage.getItem('loggedIn')) {
     initMap();
 
-    // $('#toasty').toast('show');
+    $('#toasty').toast('show');
   } else {
     window.location = '/';
   }
@@ -88,274 +66,274 @@ $( document ).ready(function() {
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 37.78, lng: -122.44},
+    center: { lat: 37.78, lng: -122.44 },
     zoom: 13.5,
     zoomControl: false,
     streetViewControl: false,
     fullscreenControl: false,
     mapTypeControl: false,
     styles: [
-  {
-    elementType: "geometry",
-    stylers: [
       {
-        color: "#212121"
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#212121"
+          }
+        ]
+      },
+      {
+        elementType: "labels.icon",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#757575"
+          }
+        ]
+      },
+      {
+        elementType: "labels.text.stroke",
+        stylers: [
+          {
+            color: "#212121"
+          }
+        ]
+      },
+      {
+        featureType: "administrative",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#757575"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.country",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#9e9e9e"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.land_parcel",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.locality",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#bdbdbd"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.neighborhood",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.neighborhood",
+        elementType: "geometry.fill",
+        stylers: [
+          {
+            color: "#229987"
+          }
+        ]
+      },
+      {
+        featureType: "administrative.neighborhood",
+        elementType: "geometry.stroke",
+        stylers: [
+          {
+            color: "#fafff5"
+          }
+        ]
+      },
+      {
+        featureType: "poi",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#757575"
+          }
+        ]
+      },
+      {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#181818"
+          }
+        ]
+      },
+      {
+        featureType: "poi.park",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#616161"
+          }
+        ]
+      },
+      {
+        featureType: "poi.park",
+        elementType: "labels.text.stroke",
+        stylers: [
+          {
+            color: "#1b1b1b"
+          }
+        ]
+      },
+      {
+        featureType: "road",
+        elementType: "geometry.fill",
+        stylers: [
+          {
+            color: "#2c2c2c"
+          }
+        ]
+      },
+      {
+        featureType: "road",
+        elementType: "labels",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "road",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#8a8a8a"
+          }
+        ]
+      },
+      {
+        featureType: "road.arterial",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#373737"
+          }
+        ]
+      },
+      {
+        featureType: "road.arterial",
+        elementType: "labels",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#3c3c3c"
+          }
+        ]
+      },
+      {
+        featureType: "road.highway",
+        elementType: "labels",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "road.highway.controlled_access",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#4e4e4e"
+          }
+        ]
+      },
+      {
+        featureType: "road.local",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "road.local",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#616161"
+          }
+        ]
+      },
+      {
+        featureType: "transit",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#757575"
+          }
+        ]
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+          {
+            color: "#000000"
+          }
+        ]
+      },
+      {
+        featureType: "water",
+        elementType: "labels.text",
+        stylers: [
+          {
+            visibility: "off"
+          }
+        ]
+      },
+      {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [
+          {
+            color: "#3d3d3d"
+          }
+        ]
       }
-    ]
-  },
-  {
-   elementType: "labels.icon",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#757575"
-     }
-   ]
- },
- {
-   elementType: "labels.text.stroke",
-   stylers: [
-     {
-       color: "#212121"
-     }
-   ]
- },
- {
-   featureType: "administrative",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#757575"
-     }
-   ]
- },
- {
-   featureType: "administrative.country",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#9e9e9e"
-     }
-   ]
- },
- {
-   featureType: "administrative.land_parcel",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "administrative.locality",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#bdbdbd"
-     }
-   ]
- },
- {
-   featureType: "administrative.neighborhood",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "administrative.neighborhood",
-   elementType: "geometry.fill",
-   stylers: [
-     {
-       color: "#229987"
-     }
-   ]
- },
- {
-   featureType: "administrative.neighborhood",
-   elementType: "geometry.stroke",
-   stylers: [
-     {
-       color: "#fafff5"
-     }
-   ]
- },
- {
-   featureType: "poi",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#757575"
-     }
-   ]
- },
- {
-   featureType: "poi.park",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#181818"
-     }
-   ]
- },
- {
-   featureType: "poi.park",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#616161"
-     }
-   ]
- },
- {
-   featureType: "poi.park",
-   elementType: "labels.text.stroke",
-   stylers: [
-     {
-       color: "#1b1b1b"
-     }
-   ]
- },
- {
-   featureType: "road",
-   elementType: "geometry.fill",
-   stylers: [
-     {
-       color: "#2c2c2c"
-     }
-   ]
- },
- {
-   featureType: "road",
-   elementType: "labels",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "road",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#8a8a8a"
-     }
-   ]
- },
- {
-   featureType: "road.arterial",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#373737"
-     }
-   ]
- },
- {
-   featureType: "road.arterial",
-   elementType: "labels",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "road.highway",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#3c3c3c"
-     }
-   ]
- },
- {
-   featureType: "road.highway",
-   elementType: "labels",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "road.highway.controlled_access",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#4e4e4e"
-     }
-   ]
- },
- {
-   featureType: "road.local",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "road.local",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#616161"
-     }
-   ]
- },
- {
-   featureType: "transit",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#757575"
-     }
-   ]
- },
- {
-   featureType: "water",
-   elementType: "geometry",
-   stylers: [
-     {
-       color: "#000000"
-     }
-   ]
- },
- {
-   featureType: "water",
-   elementType: "labels.text",
-   stylers: [
-     {
-       visibility: "off"
-     }
-   ]
- },
- {
-   featureType: "water",
-   elementType: "labels.text.fill",
-   stylers: [
-     {
-       color: "#3d3d3d"
-     }
-   ]
- }
     ],
   });
   infoWindow = new google.maps.InfoWindow;
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
       let pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -372,7 +350,7 @@ function initMap() {
         // dataType: 'json',
         async: true,
         success: onSuccess,
-        error: function(err) {
+        error: function (err) {
           console.log(err);
         }
       });
@@ -381,7 +359,7 @@ function initMap() {
       infoWindow.setContent('Location found.');
       infoWindow.open(map);
       map.setCenter(pos);
-    }, function() {
+    }, function () {
       handleLocationError(true, infoWindow, map.getCenter());
     });
   } else {
@@ -393,46 +371,7 @@ function initMap() {
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
+    'Error: The Geolocation service failed.' :
+    'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
-
-// FILTERS --> EVENT LISTENERS
-
-$('#filter1').on('click', (event) => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      let pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-      const userLocation = Geohash.encode(pos.lat, pos.lng, 9);
-
-      $.ajax({
-        method: "GET",
-        // https://app.ticketmaster.com/discovery/v2/events.json?keyword=devjam&source=universe&countryCode=US&apikey=GjZeJXAWtkoaocEqKaSOie2GxLzRCBVZ
-        url: `https://app.ticketmaster.com/discovery/v2/events.json?geoPoint=${userLocation}&sort=distance,asc&apikey=nIqXELlTRG3dtZ9cmpqSl3Poa8Epf5zS`,
-        // contentType: "application/json",
-       // dataType: 'json',
-        async: true,
-        success: filter1Success,
-        error: function(err) {
-          console.log(err);
-        }
-      });
-    });
-  };
-});
-
-function filter1Success(res) {
-
-  res._embedded.events.forEach((event) => {
-    const distance = event.distance;
-    // console.log(event.name)
-
-    if (`${distance}` > 5)
-    console.log(event.name && event.distance)
-  });
-
-};
