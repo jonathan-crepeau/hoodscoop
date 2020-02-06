@@ -77,6 +77,7 @@ const destroy = (req, res) => {
          }
 
        console.log(deletedFavorite, " was deleted from favorites")
+       res.send(deletedFavorite)
      })
 })
 }
