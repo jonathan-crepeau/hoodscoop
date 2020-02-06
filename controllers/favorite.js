@@ -12,7 +12,13 @@ const index = (req, res) => {
   db.Favorite.find({}, (error, userFavorites) => {
     if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
 
-    res.send(userFavorites)
+    currentUser = req.session.currentUser;
+    db.User.findById(req.session.currentUser, (err,foundUser)=>{
+      if (err) {
+          return console.log(err)
+       }
+      res.send(foundUser.favorites)
+    })
 
 
   });
@@ -35,12 +41,12 @@ const addFav = (req, res) => {
           return console.log(err)
        }
 
-      foundUser.favorites.push(newFavorite._id);
+      foundUser.favorites.push(newFavorite);
       foundUser.save();
     })
 
-    console.log(`saved new favorite: ${newFavorite}`)
-    res.json({newFavorite});
+    // console.log(`saved new favorite: ${newFavorite}`)
+    // res.json({newFavorite});
   })
 }
 
