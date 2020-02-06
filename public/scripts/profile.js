@@ -28,7 +28,7 @@ const onSuccess = async (response) => {
       });
       $('.card-columns').append(`
         <div class="card text-white bg-dark mt-1">
-          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i>${name}</div>
+          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
           <img src="${image}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-title" id="genre">${segment}/${genre}</p>
@@ -77,16 +77,23 @@ const favorites = [];
 // faveButton.on("click", addToFavorites)
 
 $("#cardy").on("click", '.heart', function() {
-   $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
-   if ($(this).hasClass("btn-danger")) {
-     $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
-     favorites.push($(this).parent().parent())
-   }
-   else if ($(this).hasClass("btn-outline-danger")) {
-     favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
-     console.log("OH MA GAWD: ", favorites)
-     $(this).parent().parent().empty()
-   }
+ //   $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
+ //   if ($(this).hasClass("btn-danger")) {
+ //     $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
+ //     // favorites.push($(this).parent().parent())
+ //     db.User.findById(req.session.currentUser, (err,foundUser)=>{
+ //       if (err) {
+ //           return console.log(err)
+ //        }
+ //
+ //       console.log(foundUser.favorites)
+ //   })
+ // }
+ //   else if ($(this).hasClass("btn-outline-danger")) {
+ //     favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
+ //     console.log("OH MA GAWD: ", favorites)
+ //     $(this).parent().parent().empty()
+ //   }
    const name = $(this).parent().text();
    const id = $(this).parent().attr('id');
    const distance = $(this).parent().parent().children('.card-body').find('.card-text').text();
@@ -103,6 +110,11 @@ $("#cardy").on("click", '.heart', function() {
        genre: segment
    }
 
+
+ $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
+ if ($(this).hasClass("btn-danger")) {
+   $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
+   // favorites.push($(this).parent().parent())
    $.ajax({
      method: "POST",
      url: `/api/favorites/${favoriteData.eventId}`,
@@ -117,19 +129,62 @@ $("#cardy").on("click", '.heart', function() {
      error: function(result) {
        console.log(favoriteData)
      }
- })
+   })
+
+
+}
+ else if ($(this).hasClass("btn-outline-danger")) {
+   favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
+    // $(this).parent().parent().removeattr('style')
+   console.log("OH MA GAWD: ", favorites)
+   // $(this).parent().parent().empty()
+ }
 });
 
-const renderFavorites = function () {
+
+//
+// const renderFavorites = function () {
+//   console.log("clicked")
+//     $("#cardy").hide()
+//     $.ajax({
+//       method: "GET",
+//       url: `/api/favorites`,
+//       headers: {
+//         withCredentials: true,
+//       },
+//       success : function(result) {
+//         console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+//       },
+//       error: function(err) {
+//         console.log(err)
+//       }
+//     })
+//     // $("#favoritesDiv").append(favorites)
+// }
+
+$("#eventsTab").on("click", function() {
+
+  $("#favoritesDiv").hide(); $("#cardy").show()});
+
+
+$("#favorites").on("click", function() {
+  console.log("clicked")
     $("#cardy").hide()
-    console.log(favorites);
-    $("#favoritesDiv").append(favorites)
-}
-
-$("#eventsTab").on("click", function() {$("#favoritesDiv").hide(); $("#cardy").show()});
-
-
-$("#favorites").on("click", renderFavorites);
+    $.ajax({
+      method: "GET",
+      url: `/api/favorites`,
+      headers: {
+        withCredentials: true,
+      },
+      success : function(result) {
+        console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+      },
+      error: function(err) {
+        console.log(err)
+      }
+    })
+    // $("#favoritesDiv").append(favorites)
+});
 
 // renderExpanded =
 
@@ -513,20 +568,21 @@ function filter1Success(response) {
     console.log(event.name)
     console.log(event.distance)
     const name = event.name;
+    const id = event.id;
     const distance = event.distance;
     const image = event.images[0].url;
     const segment = event.classifications[0].segment.name;
     const genre = event.classifications[0].genre.name;
     $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
-            <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
-            </div>
+      <div class="card text-white bg-dark mt-1">
+        <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+        <img src="${image}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-title" id="genre">${segment}/${genre}</p>
+            <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
+      </div>
       `)
   });
 };
@@ -559,20 +615,21 @@ function filter2Success(response) {
   response._embedded.events.forEach((event) => {
     if (event.dates.start.localDate < '2020-02-15') {
       const name = event.name;
+      const id = event.id;
       const distance = event.distance;
       const image = event.images[0].url;
       const segment = event.classifications[0].segment.name;
       const genre = event.classifications[0].genre.name;
       $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
+        <div class="card text-white bg-dark mt-1">
+          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+          <img src="${image}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
+              <p class="card-title" id="genre">${segment}/${genre}</p>
+              <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+            <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
             </div>
-          </div>
+        </div>
       `)
     }
   })
@@ -618,20 +675,21 @@ function filter3Success(response) {
   console.log({modified})
   modified.forEach((event) => {
     const name = event.name;
+    const id = event.id;
     const distance = event.distance;
     const image = event.images[0].url;
     const segment = event.classifications[0].segment.name;
     const genre = event.classifications[0].genre.name;
     $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
-            <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
-            </div>
+      <div class="card text-white bg-dark mt-1">
+        <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+        <img src="${image}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-title" id="genre">${segment}/${genre}</p>
+            <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
+      </div>
       `)
   })
 }
