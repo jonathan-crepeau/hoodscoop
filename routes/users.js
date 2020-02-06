@@ -6,6 +6,8 @@ const ctrl = require('../controllers');
 
 // CRUD ROUTES ================================= //
 
+// NOTE really should just be different requests on '/' path, mayyyybe and ':id' or similar on the path
+
 // POST Signup (Create) Single User
 router.post('/submitForm', ctrl.auth.signup);
 
