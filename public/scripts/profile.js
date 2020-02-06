@@ -33,7 +33,7 @@ const onSuccess = async (response) => {
             <div class="card-body">
               <p class="card-title" id="genre">${segment}/${genre}</p>
               <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
-            <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
+            <button type="button" class="expanded expand btn btn-secondary btn-lg btn-block">Expand</button>
             </div>
         </div>
       `)
@@ -134,12 +134,22 @@ $("#cardy").on("click", '.heart', function() {
 
 }
  else if ($(this).hasClass("btn-outline-danger")) {
-   favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
+   $.ajax({
+     method: "DELETE",
+     url: `/api/favorites/${favoriteData.eventId}`,
+     headers: {
+       withCredentials: true,
+     },
+     data: favoriteData.eventId,
+     success: function(result) {
+       console.log(result, "deleted from favorites")
+     }
+   })
     // $(this).parent().parent().removeattr('style')
    console.log("OH MA GAWD: ", favorites)
    // $(this).parent().parent().empty()
- }
-});
+ };
+})
 
 
 //
@@ -164,7 +174,11 @@ $("#cardy").on("click", '.heart', function() {
 
 $("#eventsTab").on("click", function() {
 
-  $("#favoritesDiv").hide(); $("#cardy").show()});
+  $("#favoritesDiv").hide(); $("#cardy").show()
+
+});
+
+
 
 
 $("#favorites").on("click", function() {
@@ -178,6 +192,19 @@ $("#favorites").on("click", function() {
       },
       success : function(result) {
         console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+
+        result.forEach(element =>
+          $("#favoritesDiv").append(
+           `<div class="card text-white bg-dark mt-1">
+              <div class="card-header" id="${element.eventId}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${element.eventName}</div>
+                <img src="https://i.ibb.co/gFYbrhP/joseph-barrientos-Ji-G7-Bu1-Mo-M-unsplash.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-title" id="genre">${element.genre}</p>
+                    <p class="card-text" id="distance">Distance:<br>${element.distance}miles</p>
+                  <button type="button" class="expanded expand btn btn-secondary btn-lg btn-block">Expand</button>
+                </div>
+              </div>`)
+        )
       },
       error: function(err) {
         console.log(err)
@@ -190,17 +217,17 @@ $("#favorites").on("click", function() {
 
 $("#cardy").on("click", '.expand', function() {
 
-  if (!$(this).hasClass("expanded")) {
-    $(this).addClass("expanded")
-    $(this).parent().parent().css({"color": "red", "border": "2px solid blue", "width": "46vw", "position": "absolute", "z-index": "1"})
+  if ($(this).hasClass("expanded")) {
+    $(this).parent().parent().css({"color": "red", "border": "2px solid blue", "width": "46vw", "height": "auto", "position": "absolute", "z-index": "1"})
     $(this).text("Minimize")
     $(this).parent().parent().siblings().hide()
+    $(this).removeClass("expanded")
   }
   else {
     console.log("lol")
     $(this).parent().parent().removeAttr(' Style ');
     $(this).text("Expand")
-    $(this).removeClass("expanded")
+    $(this).addClass("expanded")
     $(this).parent().parent().siblings().show()
   }
   // else {
@@ -516,7 +543,7 @@ function initMap() {
       });
 
       infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
+      infoWindow.setContent('You Are Here!');
       infoWindow.open(map);
       map.setCenter(pos);
     }, function() {
@@ -580,7 +607,7 @@ function filter1Success(response) {
           <div class="card-body">
             <p class="card-title" id="genre">${segment}/${genre}</p>
             <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
-          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
+          <button type="button" class="expanded expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
       </div>
       `)
@@ -627,7 +654,7 @@ function filter2Success(response) {
             <div class="card-body">
               <p class="card-title" id="genre">${segment}/${genre}</p>
               <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
-            <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
+            <button type="button" class="expanded expand btn btn-secondary btn-lg btn-block">Expand</button>
             </div>
         </div>
       `)
@@ -687,7 +714,7 @@ function filter3Success(response) {
           <div class="card-body">
             <p class="card-title" id="genre">${segment}/${genre}</p>
             <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
-          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
+          <button type="button" class="expanded expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
       </div>
       `)
