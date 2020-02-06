@@ -1,4 +1,3 @@
-
 // 1. Select the Form
 const form = document.getElementById('loginForm');
 
@@ -79,3 +78,32 @@ function handleLogin(event) {
         });
     };
 };
+
+$('#updateButton').on('click', () => {
+    event.preventDefault();
+    console.log('clicked!');
+
+    const firstName = document.getElementById('update-first-name');
+    const lastName = document.getElementById('update-last-name');
+    const email = document.getElementById('update-email');
+
+    const userData = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        email: email.value,
+    };
+
+    console.log(userData);
+
+    $.ajax({
+        method: 'PUT',
+        url: '/api/update',
+        headers: {
+            withCredentials: true,
+            contentType: "application/json",
+        },
+        data: JSON.stringify(userData),
+        success: response => console.log(response),
+        error: error => console.log(error),
+    });
+});
