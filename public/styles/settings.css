@@ -1,0 +1,8 @@
+.inputError {
+    background-color: palevioletred;
+    border: solid black 10px;
+}
+
+.alert p {
+    font-size: .75em;
+}

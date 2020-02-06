@@ -1,5 +1,9 @@
 $("#submitBtn").click(handleSignupSubmit);
 
+function onSuccess(response) {
+  window.location = '/';
+};
+
 const form = document.getElementsByClassName('signupForm');
 
 function handleSignupSubmit() {
@@ -15,7 +19,7 @@ function handleSignupSubmit() {
     lastName: lastName.value,
     email: email.value,
     password: password.value
-  }
+  };
 
   // const formInputs = [...form.elements];
   //
@@ -42,7 +46,7 @@ function handleSignupSubmit() {
   //     }
   // });
 
-  alert("Hello\nHow are you?");
+  // alert("Hello\nHow are you?");
 
   console.log(userData);
 
@@ -51,8 +55,8 @@ function handleSignupSubmit() {
     url: '/api/submitForm',
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(userData),
-    success : function(result) {
-      console.log(result); // result is an object which is created from the returned JSON
-    }
-  })
-}
+    success: onSuccess,
+    error: error => console.log(error),
+  });
+};
+

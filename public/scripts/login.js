@@ -22,6 +22,8 @@ function handleLogin(event) {
     $('#emailHelp').remove();
     $('#passwordHelp').remove();
 
+    document.querySelectorAll('.alert').forEach((alert) => alert.remove())
+
     // 3. Select form elements
     const userEmail = document.getElementById('email');
     const userPassword = document.getElementById('password');
@@ -36,11 +38,12 @@ function handleLogin(event) {
     const formInputs = [...form.elements];
     formInputs.forEach((input) => {
         input.classList.remove('inputError');
+
         if (input.type !== 'submit' && input.value === '') {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
-            <div class="alert p-0">
+            <div class="alert">
                 <p>Please ${input.placeholder}</p>
             </div>
             `);

@@ -26,7 +26,7 @@ const signup = async (req, res) => {
 
     db.User.create(req.body, (err, savedUser) => {
         if (err) {
-            return res.json({lol})
+            return res.json({message: 'lol'})
          }
          console.log(`saved new user: ${savedUser}`)
          res.json({savedUser});
@@ -108,10 +108,23 @@ const logout = (req, res) => {
 };
 
 // DELETE SINGLE USER ================ //
+
 const destroy = (req, res) => {
   const { email, password } = req.body;
-  db.User.findOneAndDelete({email}, (err, deletedUser) => {
-  
+  db.User.findOneAndDelete({email}, async (err, deletedUser) => {
+    let passwordsMatch;
+    if (err) res.status(400).json({status: 400, error: 'Bad request A!'});
+
+    if (!deletedUser) {
+      return res.status(400).json({status: 400, message: 'Username or password is incorrect.'});
+    }
+
+    try {
+      passwordsMatch = await bcrypt.compare(password, deletedUser.password);
+    } catch (err) {
+      res.status(400).json({status: 400, message: 'Bad request B!'});
+    };
+
     console.log(deletedUser)
     if (err) res.status(400).json({status: 400, error: 'Bad request, please try again.'});
     const responseObj = {
