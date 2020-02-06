@@ -20,7 +20,19 @@ Always feel like you're missing out on upcoming concerts, guest speakers and oth
 - express session
 - nodemon
 
+##### Third-Party API
+- Ticketmaseter Discovery API
+
 ## Existing Features
+
+##### User Accounts & Authentication
+
+##### Event Display (Map & Cards)
+
+##### Event Filters
+
+##### Favorite Events
+
 
 
 
