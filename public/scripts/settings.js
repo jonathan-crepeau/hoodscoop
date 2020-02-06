@@ -17,6 +17,8 @@ function handleLogin(event) {
     event.preventDefault();
     isFormValid = true;
 
+    document.querySelectorAll('.alert').forEach((alert) => alert.remove())
+
     // 3. Select form elements
     const userEmail = document.getElementById('email');
     const userPassword = document.getElementById('password');
@@ -34,7 +36,7 @@ function handleLogin(event) {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
-            <div class="alert pt-0">
+            <div class="alert">
                 <p>Please ${input.placeholder}</p>
             </div>
             `);
