@@ -43,7 +43,7 @@ app.use('/', routes.view);
 
 // API ROUTES ============================= //
 app.use('/api', routes.user);
-
+app.use('/api', routes.favorite);
 
 // START SERVER ============================= //
 app.listen(PORT, () => {
