@@ -164,7 +164,11 @@ $("#cardy").on("click", '.heart', function() {
 
 $("#eventsTab").on("click", function() {
 
-  $("#favoritesDiv").hide(); $("#cardy").show()});
+  $("#favoritesDiv").hide(); $("#cardy").show()
+
+});
+
+
 
 
 $("#favorites").on("click", function() {
@@ -178,6 +182,19 @@ $("#favorites").on("click", function() {
       },
       success : function(result) {
         console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+
+        result.forEach(element =>
+          $("#favoritesDiv").append(
+           `<div class="card text-white bg-dark mt-1">
+              <div class="card-header" id="${element.eventId}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${element.eventName}</div>
+                <img src="https://i.ibb.co/gFYbrhP/joseph-barrientos-Ji-G7-Bu1-Mo-M-unsplash.jpg" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <p class="card-title" id="genre">${element.genre}</p>
+                    <p class="card-text" id="distance">Distance:<br>${element.distance}miles</p>
+                  <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
+                </div>
+              </div>`)
+        )
       },
       error: function(err) {
         console.log(err)
