@@ -26,7 +26,7 @@ const signup = async (req, res) => {
 
     db.User.create(req.body, (err, savedUser) => {
         if (err) {
-            return res.json({lol})
+            return res.json({message: 'lol'})
          }
          console.log(`saved new user: ${savedUser}`)
          res.json({savedUser});
