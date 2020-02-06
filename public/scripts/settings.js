@@ -116,7 +116,14 @@ $('#updateButton').on('click', () => {
             withCredentials: true,
         },
         data: JSON.stringify(userData),
-        success: response => console.log(response),
+        success: updateSuccess,
         error: error => console.log(error),
     });
 });
+
+function updateSuccess(response) {
+    window.alert('Successfully updated!')
+    $('#update-first-name').val('');
+    $('#update-last-name').val('');
+    $('#update-email').val('');
+}
