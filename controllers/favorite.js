@@ -7,8 +7,8 @@ const index = (req, res) => {
 
   console.log("WOW-----------------------")
 
-  db.Favorite.find({}, (error, userFavorites) => {
-    if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
+  // db.Favorite.find({}, (error, userFavorites) => {
+  //   if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
 
     currentUser = req.session.currentUser;
     db.User.findById(req.session.currentUser, (err,foundUser)=>{
@@ -19,14 +19,10 @@ const index = (req, res) => {
 
        var favoriteArr = [];
        console.log("----------found favorites-----------", foundUser);
-  for (let i = 0; i <foundUser.favorites.length; i++){
-        db.Favorite.findById(foundUser.favorites[i], (err, favoriteElements) => {
-            console.log("FAVORITE ELEMENTS", [favoriteElements])
-            favoriteArr.push(favoriteElements)
-      })
-  }
-  console.log(favoriteArr)
-  res.send([foundUser.favorite])
+        db.Favorite.find(foundUser.favorites.eventId, (err, favoriteElements) => {
+            console.log("FAVORITE ELEMENTS", favoriteElements)
+              res.send(favoriteElements)
+
 
   });
 });
@@ -72,19 +68,19 @@ const destroy = (req, res) => {
           return console.log(err)
        }
 
-       console.log(req.body)
+       console.log('DELETE BODY', req.body.eventId)
 
-       console.log(foundUser.favorites.indexOf(req.body))
-       db.Favorite.deleteOne(foundUser.favorites.indexOf(req.body), (err, deletedFavorite) => {
+       // console.log(foundUser.favorites.indexOf(req.body))
+       db.Favorite.deleteOne({"eventId":req.body.eventId}, (err, deletedFavorite) => {
          if (err) {
            console.log("unable to remove favorite")
          }
 
-       console.log(foundUser.favorites.indexOf(req.body), " was deleted from favorites")
+       console.log(deletedFavorite, " was deleted from favorites")
      })
-
-  })
+})
 }
+
 
 
 module.exports = {
