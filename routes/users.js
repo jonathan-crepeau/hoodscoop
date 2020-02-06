@@ -10,7 +10,7 @@ const ctrl = require('../controllers');
 router.post('/submitForm', ctrl.auth.signup);
 
 // Show (VIEW) Single User
-router.get('/users/:id', ctrl.auth.show);
+router.get('/show', ctrl.auth.show);
 
 // PUT Update Single User
 router.put('/update', ctrl.auth.update); 

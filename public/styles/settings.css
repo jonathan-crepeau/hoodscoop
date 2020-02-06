@@ -6,3 +6,8 @@
 .alert p {
     font-size: .75em;
 }
+
+span {
+    font-weight: bold;
+    color: blue;
+}

@@ -26,6 +26,9 @@ const onSuccess = async (response) => {
       eqPin.addListener('click', function() {
         infowindow.open(map, eqPin);
       });
+
+      
+
       $('.card-columns').append(`
         <div class="card text-white bg-dark mt-1">
           <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
