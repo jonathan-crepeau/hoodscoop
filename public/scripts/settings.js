@@ -11,11 +11,9 @@ $(document).ready(function() {
         window.location = '/';
     }
 
-    const userID = req.sessions.currentUser;
-
     $.ajax({
         method: 'GET',
-        url: `/api/users/${userID}`,
+        url: '/api/show',
         contentType: "application/json",
         headers: {
             withCredentials: true,
@@ -24,6 +22,13 @@ $(document).ready(function() {
         error: error => console.log(error),
     });
 });
+
+function showSuccess(response) {
+    console.log(response);
+    $('#thatFirstName').html(`${response.firstName}`);
+    $('#thatLastName').html(`${response.lastName}`);
+    $('#thatEmail').html(`${response.email}`);
+}
 
 function handleLogin(event) {
     // 2. Prevent page refresh

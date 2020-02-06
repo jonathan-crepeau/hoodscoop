@@ -35,7 +35,7 @@ const signup = async (req, res) => {
 
 // Show (READ) Single User
 const show = (req, res) => {
-  db.User.findById(req.params.id, (error, foundUser) => {
+  db.User.findById(req.session.currentUser, (error, foundUser) => {
     if (error) res.status(400).json({status: 400, message: 'Something went wrong, please try again.'});
     res.status(200).json(foundUser);
   });
