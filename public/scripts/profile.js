@@ -12,6 +12,7 @@ const onSuccess = async (response) => {
       const name = event.name;
       const distance = event.distance;
       const image = event.images[0].url;
+      const id = event.id;
       const segment = event.classifications[0].segment.name;
       const genre = event.classifications[0].genre.name;
       const lng = JSON.parse(event._embedded.venues[0].location.longitude);
@@ -27,11 +28,11 @@ const onSuccess = async (response) => {
       });
       $('.card-columns').append(`
         <div class="card text-white bg-dark mt-1">
-          <div class="card-header"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i>${name}</div>
+          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i>${name}</div>
           <img src="${image}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="card-title">${segment}/${genre}</p>
-              <p class="card-text">Distance:<br>${distance}miles</p>
+              <p class="card-title" id="genre">${segment}/${genre}</p>
+              <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
             <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
             </div>
         </div>
@@ -43,14 +44,14 @@ const onSuccess = async (response) => {
 };
 
 
-const favoriteSuccess = async (response) => {
-    try {
-      const name = event.name;
-      const distance = event.distance;
-      const id = event.id;
-    }
-    catch (err){}
-}
+// const favoriteSuccess = async (response) => {
+//     try {
+//       const name = event.name;
+//       const distance = event.distance;
+//       const id = event.id;
+//     }
+//     catch (err){}
+// }
 
 
 const faveButton = $('.heart');
@@ -58,32 +59,20 @@ const expandButton = $('.expand')
 
 const favorites = [];
 
-const addToFavorites = () => {
-  // discuss with johnathan
-  // get these values from the header of the card or directly from pin
-
-
-
-
-  const name = document.getElementById('');
-  const id = document.getElementById('');
-
-  const favoriteData = {
-      eventName: name.value,
-      eventId: id.value,
-  };
-
-  $.ajax({
-    method: "POST",
-    url: '/api/favorites/:id',
-    contentType: "application/json; charset=utf-8",
-    data: JSON.stringify(favoriteData),
-    success : function(result) {
-      console.log(result); // result is an object which is created from the returned JSON
-    }
-  })
-
-}
+// const addToFavorites = () => {
+//   // discuss with johnathan
+//   // get these values from the header of the card or directly from pin
+//
+//   const name = document.getElementById('');
+//   const id = document.getElementById('');
+//
+//   const favoriteData = {
+//       eventName: name.value,
+//       eventId: id.value,
+//   };
+//
+//
+// }
 
 // faveButton.on("click", addToFavorites)
 
@@ -98,7 +87,38 @@ $("#cardy").on("click", '.heart', function() {
      console.log("OH MA GAWD: ", favorites)
      $(this).parent().parent().empty()
    }
+   const name = $(this).parent().text();
+   const id = $(this).parent().attr('id');
+   const distance = $(this).parent().parent().children('.card-body').find('.card-text').text();
+   const segment = $(this).parent().parent().children('.card-body').find('.card-title').text();
+
+   const distanceNum =  distance.match(/\d+/g)
+   const finalDistance = distanceNum.join('.')
+   console.log(segment)
+
+   const favoriteData = {
+       eventName: name,
+       eventId: id,
+       distance: finalDistance,
+       genre: segment
+   }
+
+   $.ajax({
+     method: "POST",
+     url: `/api/favorites/${favoriteData.eventId}`,
+     contentType: "application/json; charset=utf-8",
+     headers: {
+       withCredentials: true,
+     },
+     data: JSON.stringify(favoriteData),
+     success : function(result) {
+       console.log(result); // result is an object which is created from the returned JSON
+     },
+     error: function(result) {
+       console.log(favoriteData)
+     }
  })
+});
 
 const renderFavorites = function () {
     $("#cardy").hide()
@@ -106,10 +126,10 @@ const renderFavorites = function () {
     $("#favoritesDiv").append(favorites)
 }
 
-$("#eventsTab").on("click", function() {$("#favoritesDiv").hide(); $("#cardy").show()})
+$("#eventsTab").on("click", function() {$("#favoritesDiv").hide(); $("#cardy").show()});
 
 
-$("#favorites").on("click", renderFavorites)
+$("#favorites").on("click", renderFavorites);
 
 // renderExpanded =
 

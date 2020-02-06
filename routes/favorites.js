@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const ctrl = require('../controllers');
 
-// Base Route ----> "http://localhost:4000/api/favorites"
+// Base Route ----> "http://localhost:4000/api"
 
 // View favorites
-router.get('/api/favorites', ctrl.favorite.index);
+router.get('/favorites', ctrl.favorite.index);
 
 // POST Favorite API Route
-router.post('/api/favorites/:id', ctrl.favorite.addFav);
+router.post('/favorites/:id', ctrl.favorite.addFav);
 
 // DELETE Favorite Single User
-router.delete('/api/favorites/:id', ctrl.favorite.destroy);
+router.delete('/favorites/:id', ctrl.favorite.destroy);
 
-module.export = router;
+module.exports = router;
