@@ -77,16 +77,23 @@ const favorites = [];
 // faveButton.on("click", addToFavorites)
 
 $("#cardy").on("click", '.heart', function() {
-   $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
-   if ($(this).hasClass("btn-danger")) {
-     $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
-     favorites.push($(this).parent().parent())
-   }
-   else if ($(this).hasClass("btn-outline-danger")) {
-     favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
-     console.log("OH MA GAWD: ", favorites)
-     $(this).parent().parent().empty()
-   }
+ //   $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
+ //   if ($(this).hasClass("btn-danger")) {
+ //     $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
+ //     // favorites.push($(this).parent().parent())
+ //     db.User.findById(req.session.currentUser, (err,foundUser)=>{
+ //       if (err) {
+ //           return console.log(err)
+ //        }
+ //
+ //       console.log(foundUser.favorites)
+ //   })
+ // }
+ //   else if ($(this).hasClass("btn-outline-danger")) {
+ //     favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
+ //     console.log("OH MA GAWD: ", favorites)
+ //     $(this).parent().parent().empty()
+ //   }
    const name = $(this).parent().text();
    const id = $(this).parent().attr('id');
    const distance = $(this).parent().parent().children('.card-body').find('.card-text').text();
@@ -103,6 +110,11 @@ $("#cardy").on("click", '.heart', function() {
        genre: segment
    }
 
+
+ $(this).toggleClass("btn-outline-danger").toggleClass("btn-danger")
+ if ($(this).hasClass("btn-danger")) {
+   $(this).parent().parent().css({"color": "red", "border": "2px solid red"});
+   // favorites.push($(this).parent().parent())
    $.ajax({
      method: "POST",
      url: `/api/favorites/${favoriteData.eventId}`,
@@ -117,19 +129,62 @@ $("#cardy").on("click", '.heart', function() {
      error: function(result) {
        console.log(favoriteData)
      }
- })
+   })
+
+
+}
+ else if ($(this).hasClass("btn-outline-danger")) {
+   favorites.splice(favorites.indexOf($(this).parent().parent()), 1)
+    // $(this).parent().parent().removeattr('style')
+   console.log("OH MA GAWD: ", favorites)
+   // $(this).parent().parent().empty()
+ }
 });
 
-const renderFavorites = function () {
+
+//
+// const renderFavorites = function () {
+//   console.log("clicked")
+//     $("#cardy").hide()
+//     $.ajax({
+//       method: "GET",
+//       url: `/api/favorites`,
+//       headers: {
+//         withCredentials: true,
+//       },
+//       success : function(result) {
+//         console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+//       },
+//       error: function(err) {
+//         console.log(err)
+//       }
+//     })
+//     // $("#favoritesDiv").append(favorites)
+// }
+
+$("#eventsTab").on("click", function() {
+
+  $("#favoritesDiv").hide(); $("#cardy").show()});
+
+
+$("#favorites").on("click", function() {
+  console.log("clicked")
     $("#cardy").hide()
-    console.log(favorites);
-    $("#favoritesDiv").append(favorites)
-}
-
-$("#eventsTab").on("click", function() {$("#favoritesDiv").hide(); $("#cardy").show()});
-
-
-$("#favorites").on("click", renderFavorites);
+    $.ajax({
+      method: "GET",
+      url: `/api/favorites`,
+      headers: {
+        withCredentials: true,
+      },
+      success : function(result) {
+        console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
+      },
+      error: function(err) {
+        console.log(err)
+      }
+    })
+    // $("#favoritesDiv").append(favorites)
+});
 
 // renderExpanded =
 
