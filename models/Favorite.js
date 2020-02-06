@@ -6,6 +6,7 @@ const FavoriteSchema = new Schema({
     eventName: String,
     eventId: String,
     distance: Number,
+    genre: String,
 });
 
 const Favorite = mongoose.model('Favorite', FavoriteSchema);
