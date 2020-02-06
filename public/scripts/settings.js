@@ -41,12 +41,12 @@ function handleLogin(event) {
             </div>
             `);
         }
-        else if (input.type === 'password' && input.value.length < 7) {
+        else if (input.type === 'password' && input.value.length < 4) {
             isFormValid = false;
             input.classList.add('inputError');
             input.insertAdjacentHTML('afterend', `
             <div class="alert pt-0">
-                <p>Password must be at least 7 characters</p>
+                <p>Password must be at least 4 characters</p>
             </div>
             `);
         }
@@ -56,23 +56,16 @@ function handleLogin(event) {
 
     // 5. OnSuccess function to delete User
     function onSuccess() {
-
-      $.ajax({
-          method: 'DELETE',
-          url: '/api/login',
-          contentType: 'application/json; charset=utf-8',
-          data: JSON.stringify(userData),
-          success: console.log(userData),
-          error: error => console.log(error),
-      });
-    }
+        event.preventDefault();
+        window.location = '/';
+    };
 
     if (isFormValid) {
-        console.log('Submitting User Data -->', userData);
+        console.log('Delete form is valid!');
 
         $.ajax({
-            method: 'POST',
-            url: '/api/login',
+            method: 'DELETE',
+            url: '/api/delete',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(userData),
             success: onSuccess,
