@@ -93,9 +93,9 @@ $('#updateButton').on('click', () => {
     $.ajax({
         method: 'PUT',
         url: '/api/update',
+        contentType: "application/json",
         headers: {
             withCredentials: true,
-            contentType: "application/json",
         },
         data: JSON.stringify(userData),
         success: response => console.log(response),
