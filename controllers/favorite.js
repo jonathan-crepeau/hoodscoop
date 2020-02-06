@@ -5,8 +5,6 @@ const db = require('../models');
 
 const index = (req, res) => {
 
-  const {eventName, eventId, distance, genre} = req.body;
-
   console.log("WOW-----------------------")
 
   db.Favorite.find({}, (error, userFavorites) => {

@@ -206,7 +206,7 @@ $("#favorites").on("click", function() {
 // renderExpanded =
 
 $("#cardy").on("click", '.expand', function() {
-
+  $(this).addClass("expanded")
   if (!$(this).hasClass("expanded")) {
     $(this).addClass("expanded")
     $(this).parent().parent().css({"color": "red", "border": "2px solid blue", "width": "46vw", "position": "absolute", "z-index": "1"})
