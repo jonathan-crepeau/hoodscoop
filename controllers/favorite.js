@@ -15,18 +15,31 @@ const index = (req, res) => {
       if (err) {
           return console.log(err)
        }
-      res.send(foundUser.favorites)
-    })
 
+
+       var favoriteArr = [];
+       console.log("----------found favorites-----------", foundUser);
+  for (let i = 0; i <foundUser.favorites.length; i++){
+        db.Favorite.findById(foundUser.favorites[i], (err, favoriteElements) => {
+            console.log("FAVORITE ELEMENTS", [favoriteElements])
+            favoriteArr.push(favoriteElements)
+      })
+  }
+  console.log(favoriteArr)
+  res.send([foundUser.favorite])
 
   });
-};
+});
+
+}
 
 // POST  (Create) Add Favorite REFERENCING User
 
 const addFav = (req, res) => {
 
   const {eventName, eventId, distance, genre} = req.body;
+
+  console.log(req.body)
 
   db.Favorite.create(req.body, (err, newFavorite) => {
     if (err) {
@@ -54,10 +67,22 @@ const destroy = (req, res) => {
 
   const {eventName, eventId, distance, genre} = req.body;
 
-  db.Favorite.remove(req.body, (err, deletedFavorite) => {
-    if (err) {
-      console.log("unable to remove favorite")
-    }
+    db.User.findById(req.session.currentUser, (err,foundUser)=>{
+      if (err) {
+          return console.log(err)
+       }
+
+       console.log(req.body)
+
+       console.log(foundUser.favorites.indexOf(req.body))
+       db.Favorite.deleteOne(foundUser.favorites.indexOf(req.body), (err, deletedFavorite) => {
+         if (err) {
+           console.log("unable to remove favorite")
+         }
+
+       console.log(foundUser.favorites.indexOf(req.body), " was deleted from favorites")
+     })
+
   })
 }
 
