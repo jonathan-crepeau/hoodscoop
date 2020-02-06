@@ -133,6 +133,7 @@ $("#cardy").on("click", '.heart', function() {
 
 
 }
+
  else if ($(this).hasClass("btn-outline-danger")) {
    $.ajax({
      method: "DELETE",
@@ -140,7 +141,7 @@ $("#cardy").on("click", '.heart', function() {
      headers: {
        withCredentials: true,
      },
-     data: favoriteData.eventId,
+     data: favoriteData,
      success: function(result) {
        console.log(result, "deleted from favorites")
      }
@@ -148,6 +149,7 @@ $("#cardy").on("click", '.heart', function() {
     // $(this).parent().parent().removeattr('style')
    console.log("OH MA GAWD: ", favorites)
    // $(this).parent().parent().empty()
+   $(this).parent().parent().removeAttr('style')
  };
 })
 
