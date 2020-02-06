@@ -10,6 +10,19 @@ $(document).ready(function() {
     } else {
         window.location = '/';
     }
+
+    const userID = req.sessions.currentUser;
+
+    $.ajax({
+        method: 'GET',
+        url: `/api/users/${userID}`,
+        contentType: "application/json",
+        headers: {
+            withCredentials: true,
+        },
+        success: showSuccess,
+        error: error => console.log(error),
+    });
 });
 
 function handleLogin(event) {
