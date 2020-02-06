@@ -686,6 +686,7 @@ $('#filter3').on('click', () => {
     });
   };
 });
+
 function filter3Success(response) {
   const events = response._embedded.events;
   // console.log(events);

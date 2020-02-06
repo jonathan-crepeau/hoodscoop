@@ -43,7 +43,7 @@ const show = (req, res) => {
   
 // UPDATE SINGLE USER
 const update = (req, res) => {
-  db.User.findByIdAndUpdate({id: req.session.currentUser}, req.body, {new: true}, (err, updatedUser) => {
+  db.User.findByIdAndUpdate(req.session.currentUser, req.body, {new: true}, (err, updatedUser) => {
     if (err) return res.status(400).json({error: 'Bad request!'});
     res.status(200).json(updatedUser)
   });
@@ -147,5 +147,5 @@ module.exports = {
     verify,
     logout,
     destroy,
-    // update,
+    update,
 };
