@@ -28,7 +28,7 @@ const onSuccess = async (response) => {
       });
       $('.card-columns').append(`
         <div class="card text-white bg-dark mt-1">
-          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i>${name}</div>
+          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
           <img src="${image}" class="card-img-top" alt="...">
             <div class="card-body">
               <p class="card-title" id="genre">${segment}/${genre}</p>
@@ -513,20 +513,21 @@ function filter1Success(response) {
     console.log(event.name)
     console.log(event.distance)
     const name = event.name;
+    const id = event.id;
     const distance = event.distance;
     const image = event.images[0].url;
     const segment = event.classifications[0].segment.name;
     const genre = event.classifications[0].genre.name;
     $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
-            <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
-            </div>
+      <div class="card text-white bg-dark mt-1">
+        <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+        <img src="${image}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-title" id="genre">${segment}/${genre}</p>
+            <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
+      </div>
       `)
   });
 };
@@ -559,20 +560,21 @@ function filter2Success(response) {
   response._embedded.events.forEach((event) => {
     if (event.dates.start.localDate < '2020-02-15') {
       const name = event.name;
+      const id = event.id;
       const distance = event.distance;
       const image = event.images[0].url;
       const segment = event.classifications[0].segment.name;
       const genre = event.classifications[0].genre.name;
       $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
+        <div class="card text-white bg-dark mt-1">
+          <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+          <img src="${image}" class="card-img-top" alt="...">
             <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
+              <p class="card-title" id="genre">${segment}/${genre}</p>
+              <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+            <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
             </div>
-          </div>
+        </div>
       `)
     }
   })
@@ -618,20 +620,21 @@ function filter3Success(response) {
   console.log({modified})
   modified.forEach((event) => {
     const name = event.name;
+    const id = event.id;
     const distance = event.distance;
     const image = event.images[0].url;
     const segment = event.classifications[0].segment.name;
     const genre = event.classifications[0].genre.name;
     $('.card-columns').append(`
-        <div class="card text-white bg-dark mt-1" style="max-width: 25rem;">
-          <div class="card-header"><button type="button" class="redBtn btn-outline-danger"><i class="far fa-heart"></button></i></div>
-          <img src="${image}" class="card-img-top" id="imgID"alt="...">
-            <div class="card-body">
-              <p class="smallText font-weight-bold">${name}</p>
-              <p class=smallText>${segment}/${genre}</p>
-              <p class="smallText card-text">Distance:<br>${distance}miles</p>
-            </div>
+      <div class="card text-white bg-dark mt-1">
+        <div class="card-header" id="${id}"><button type="button" class="heart btn btn-outline-danger"><i class="far fa-heart"></button></i> ${name}</div>
+        <img src="${image}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-title" id="genre">${segment}/${genre}</p>
+            <p class="card-text" id="distance">Distance:<br>${distance}miles</p>
+          <button type="button" class="expand btn btn-secondary btn-lg btn-block">Expand</button>
           </div>
+      </div>
       `)
   })
 }
