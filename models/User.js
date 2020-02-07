@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
+        //(match:) see regex line from Jonathan + John's collabothon. Otherwise if it accepts non-email format it'll potentially break server later on.
     },
     password: {
         type: String,

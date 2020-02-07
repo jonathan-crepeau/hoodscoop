@@ -10,13 +10,14 @@ const index = (req, res) => {
   // db.Favorite.find({}, (error, userFavorites) => {
   //   if (error) return response.status(500).json({message: 'Something went wrong here. Try again'});
 
-    currentUser = req.session.currentUser;
+    // NOTE undefined auto-defines with "var" (line below):
+    // currentUser = req.session.currentUser;
     db.User.findById(req.session.currentUser, (err,foundUser)=>{
       if (err) {
           return console.log(err)
        }
 
-
+       // original plan with pushing favoriteArr didn't work out b/c JS is asynchronous -- why lines after loop ran first.
        var favoriteArr = [];
        console.log("----------found favorites-----------", foundUser);
         db.Favorite.find(foundUser.favorites.eventId, (err, favoriteElements) => {
@@ -32,7 +33,7 @@ const index = (req, res) => {
 // POST  (Create) Add Favorite REFERENCING User
 
 const addFav = (req, res) => {
-
+  // Line below was used for console logging each piece of info --totally cool -- just take out after testing done.
   const {eventName, eventId, distance, genre} = req.body;
 
   console.log(req.body)
@@ -42,7 +43,7 @@ const addFav = (req, res) => {
         return console.log(err)
      }
 
-    currentUser = req.session.currentUser;
+    // currentUser = req.session.currentUser;
     db.User.findById(req.session.currentUser, (err,foundUser)=>{
       if (err) {
           return console.log(err)

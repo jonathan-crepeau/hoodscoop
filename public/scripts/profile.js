@@ -5,10 +5,13 @@ const icon = {
   anchor: new google.maps.Point(0, 0)
 };
 
+// NOTE - async not meant for front end (with this project's technologies). Try / catch can be used even outside of async/await ::thumbs up::. In some browsers, try/catch isn't supported and it'll miss the errors (e.g. Older Safari).
 const onSuccess = async (response) => {
   try {
     response._embedded.events.forEach((event) => {
       // console.log(event._embedded.venues[0].city);
+
+      // NOTE - way cleaner to go with 'const { name, distance, etc } = req.body'.
       const name = event.name;
       const distance = event.distance;
       const image = event.images[0].url;
@@ -18,16 +21,17 @@ const onSuccess = async (response) => {
       const lng = JSON.parse(event._embedded.venues[0].location.longitude);
       const lat = JSON.parse(event._embedded.venues[0].location.latitude);
       const location = {lng: lng, lat:lat};
+      
       const eqPin = new google.maps.Marker({position: location, map: map, icon: icon, animation:google.maps.Animation.BOUNCE}); //, icon: icon
+      
       var infowindow = new google.maps.InfoWindow({
         content: `<div class="card-header">${name}</div>
         <img src="${image}" class="card-img-top" alt="...">`
       });
+      
       eqPin.addListener('click', function() {
         infowindow.open(map, eqPin);
       });
-
-      
 
       $('.card-columns').append(`
         <div class="card text-white bg-dark mt-1">
@@ -102,6 +106,7 @@ $("#cardy").on("click", '.heart', function() {
    const distance = $(this).parent().parent().children('.card-body').find('.card-text').text();
    const segment = $(this).parent().parent().children('.card-body').find('.card-title').text();
 
+   // NOTE when using snippets from outside sources, just cite (end of line below)
    const distanceNum =  distance.match(/\d+/g)
    const finalDistance = distanceNum.join('.')
    console.log(segment)
@@ -198,6 +203,7 @@ $("#favorites").on("click", function() {
       success : function(result) {
         console.log("FOUND DATA:" ,result); // result is an object which is created from the returned JSON
 
+        // NOTE - card append is still large enough to build out into its own function and then call. Can access if it is within the same scope or above it.
         result.forEach(element =>
           $("#favoritesDiv").append(
            `<div class="card text-white bg-dark mt-1">
@@ -256,6 +262,7 @@ $( document ).ready(function() {
 
 });
 
+// NOTE - declare map and infoWindow with const.
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 37.78, lng: -122.44},
@@ -569,6 +576,13 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 // FILTERS --> EVENT LISTENERS
+
+// TODO
+// NOTE - Refactor by having same GET request for each filter event listener 'click'.
+// Have an array with the separate tickemaster urls "[url1, url2, url3]"
+// Then, have call include: 'url: arr[0]' etc.
+// Another refactor option is to have urls in object - 'url: objectkeyname'
+
 $('#filter1').on('click', (event) => {
   $('.card-columns').empty();
   if (navigator.geolocation) {
